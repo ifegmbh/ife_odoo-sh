@@ -43,7 +43,7 @@ def main():
         """Inherit method to add the application_name to the connection info"""
         connection_info = original__connection_info_for(db_name)
         if uuid:
-            connection_info["application_name"] = "jobrunner_%s" % uuid
+            connection_info["application_name"] = f"jobrunner {uuid}"
         return connection_info
 
     # DATABASE Class methods modified
@@ -72,7 +72,7 @@ def main():
             cr.execute(
                 """
                 SELECT substring(application_name FROM 'jobrunner_(.*)')
-                FROM pg_stat_activity 
+                FROM pg_stat_activity
                 WHERE application_name LIKE 'jobrunner_%'
                 ORDER BY backend_start
                 LIMIT 1;
